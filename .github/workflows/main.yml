@@ -1,4 +1,5 @@
-on: 
+name: 'GitHub Enterprise Server Backup and Restore Workflow'
+on:
 
   workflow_dispatch:
     inputs:
@@ -18,16 +19,18 @@ on:
   schedule:
     # Hourly
     - cron: '0 * * * *'
-
+  
 jobs:
 
   backup:
     runs-on: ubuntu-latest
     steps:
       - name: Backup GitHub Enterprise
-        uses: djdefi/backup-utils-action@main
+        env:
+          SCHEDULED_HOSTNAME: 'djdefi-0aca3ec13e4dd9ece.ghe-test.ninja'
+        uses: djdefi/backup-utils-action@mainv
         with:
-          ghe-hostname: ${{ github.event.inputs.ghe-hostname }}
+          ghe-hostname: ${{ github.event.inputs.ghe-hostname || github.event.schedule || env.SCHEDULED_HOSTNAME }}
           verbose: ${{ github.event.inputs.verbose }}
           restore: ${{ github.event.inputs.restore }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
