@@ -1,0 +1,48 @@
+name: 'GitHub Enterprise Backup Utilities Action"
+description: 'A GitHub Action to backup and restore GitHub Enterprise'
+inputs:
+  ghe-hostname:  # hostname of the GitHub Enterprise instance
+    description: 'The hostname of the GitHub Enterprise instance'
+    required: true
+    default: 'World'
+  verbose:  # verbose output
+    description: 'Verbose output'
+    required: false
+    default: 'false'
+  restore:  # restore from backup
+    description: 'Restore from backup'
+    required: false
+    default: 'false'
+runs:
+  using: "composite"
+  steps:
+    - run: echo Hello ${{ inputs.who-to-greet }}.
+      shell: bash
+    # Clone the [GitHub Enterprise Backup Utilities](https://github.com/github/backup-utils) repository
+    - run: git clone https://github.com/github/backup-utils.git
+      shell: bash
+    # If the restore input is set to true, restore from backup
+    - run: |
+        if [ ${{ inputs.restore }} = true ]; then
+          ./backup-utils/bin/ghe-restore -v ${{ inputs.ghe-hostname }}
+        fi
+        exit 0
+      shell: bash
+    # If the restore input is not set to true, backup the GitHub Enterprise instance, setting the verbose flag if the verbose input is set to true
+    - run: |
+        if [ ${{ inputs.restore }} != true ]; then
+          if [ ${{ inputs.verbose }} = true ]; then
+            GHE_HOSTNAME=${{ inputs.ghe-hostname }} ./backup-utils/bin/ghe-backup -v
+          else
+            GHE_HOSTNAME=${{ inputs.ghe-hostname }} ./backup-utils/bin/ghe-backup
+          fi
+        fi
+      shell: bash
+    # Compress the data directory into a tarball
+    - run: tar -czf data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz data
+      shell: bash
+    # Upload the tarball as an artifact with actions/upload-artifact
+    - uses: actions/upload-artifact@v3
+      with:
+        name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
+        path: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
