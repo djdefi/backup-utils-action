@@ -27,7 +27,9 @@ runs:
     # Populate the `backup-utils/backup.config` file with the GitHub Enterprise hostname, and `GHE_DATA_DIR="data"`
     - run: |
         echo 'GHE_HOSTNAME="${{ inputs.ghe-hostname }}"' > backup-utils/backup.config
-        echo 'GHE_DATA_DIR="data"' >> backup-utils/backup.config
+        echo 'GHE_DATA_DIR="${{ github.workspace }}/data"' >> backup-utils/backup.config
+        # Make the data directory
+        mkdir -p ${{ github.workspace }}/data
       shell: bash
     # Get SSH private key from GitHub Secrets and place in `.ssh/` directory. Base the filename on the type of key. Accepts RSA and ED25519 keys.
     - run: |
@@ -74,10 +76,15 @@ runs:
         fi
       shell: bash
     # Compress the data directory into a tarball
-    - run: tar -czf data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz data
+    - run: tar -czf data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz ${{ github.workspace }}/data
       shell: bash
     # Upload the tarball as an artifact with actions/upload-artifact
     - uses: actions/upload-artifact@v3
       with:
         name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
         path: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
+    # Upload the data directory as an artifact with actions/upload-artifact
+    - uses: actions/upload-artifact@v3
+      with:
+        name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}
+        path: data
