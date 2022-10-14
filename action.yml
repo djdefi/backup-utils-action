@@ -19,6 +19,10 @@ runs:
     # Clone the [GitHub Enterprise Backup Utilities](https://github.com/github/backup-utils) repository
     - run: git clone https://github.com/github/backup-utils.git
       shell: bash
+    # Populate the `backup-utils/backup.config` file with the GitHub Enterprise hostname
+    - run: echo "GHE_HOSTNAME=${{ inputs.ghe-hostname }}" > backup-utils/backup.config
+      shell: bash
+
     # If the restore input is set to true, restore from backup
     - run: |
         if [ ${{ inputs.restore }} = true ]; then
