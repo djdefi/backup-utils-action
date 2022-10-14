@@ -30,3 +30,4 @@ jobs:
           ghe-hostname: ${{ github.event.inputs.ghe-hostname }}
           verbose: ${{ github.event.inputs.verbose }}
           restore: ${{ github.event.inputs.restore }}
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
