@@ -14,10 +14,6 @@ on:
         description: 'Restore from backup'
         required: false
         default: 'false'
-      ssh-pubkey:
-        description: 'SSH Public Key'
-        required: false
-        default: ''
 
   #schedule:
     # Hourly
