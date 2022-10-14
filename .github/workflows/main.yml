@@ -28,7 +28,7 @@ jobs:
       - name: Backup GitHub Enterprise
         env:
           SCHEDULED_HOSTNAME: 'djdefi-0aca3ec13e4dd9ece.ghe-test.ninja'
-        uses: djdefi/backup-utils-action@mainv
+        uses: djdefi/backup-utils-action@main
         with:
           ghe-hostname: ${{ github.event.inputs.ghe-hostname || github.event.schedule || env.SCHEDULED_HOSTNAME }}
           verbose: ${{ github.event.inputs.verbose }}
