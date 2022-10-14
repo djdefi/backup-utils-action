@@ -13,10 +13,6 @@ inputs:
     description: 'Restore from backup'
     required: false
     default: 'false'
-  ssh-pubkey:  # SSH public key
-    description: 'SSH public key'
-    required: false
-    default: ''
 
 runs:
   using: "composite"
@@ -28,6 +24,20 @@ runs:
     - run: |
         echo 'GHE_HOSTNAME="${{ inputs.ghe-hostname }}"' > backup-utils/backup.config
         echo 'GHE_DATA_DIR="data"' >> backup-utils/backup.config
+      shell: bash
+    # Get SSH private key from GitHub Secrets and place in `.ssh/` directory. Base the filename on the type of key.
+    - run: |
+        mkdir -p ~/.ssh
+        if ssh-keygen -l -f ${{ secrets.SSH_PRIVATE_KEY }} > /dev/null 2>&1; then
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        else
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_ed25519
+        fi
+        chmod 600 ~/.ssh/id_*
+      shell: bash
+    
+    # Run `ghe-host-check` to verify the GitHub Enterprise instance is reachable
+    - run: backup-utils/bin/ghe-host-check ${{ inputs.ghe-hostname }}
       shell: bash
 
     # If the restore input is set to true, restore from backup
