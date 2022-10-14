@@ -75,16 +75,16 @@ runs:
           fi
         fi
       shell: bash
-    # Compress the data directory into a tarball
-    - run: tar -czf data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz ${{ github.workspace }}/data
-      shell: bash
-    # Upload the tarball as an artifact with actions/upload-artifact
-    - uses: actions/upload-artifact@v3
-      with:
-        name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
-        path: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
-    # Upload the data directory as an artifact with actions/upload-artifact
-    - uses: actions/upload-artifact@v3
-      with:
-        name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}
-        path: data
+    ## Compress the data directory into a tarball
+    #- run: tar -czf data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz ${{ github.workspace }}/data
+    #  shell: bash
+    ## Upload the tarball as an artifact with actions/upload-artifact
+    #- uses: actions/upload-artifact@v3
+    #  with:
+    #    name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
+    #    path: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
+    ## Upload the data directory as an artifact with actions/upload-artifact
+    #- uses: actions/upload-artifact@v3
+    #  with:
+    #    name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}
+    #    path: data
