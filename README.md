@@ -1,6 +1,6 @@
-# backup-utils-action
+# GitHub Enterprise Server `backup-utils` Action
 
-[GitHub Enterprise Backup Utilities](https://github.com/github/backup-utils) running in GitHub Actions.
+[GitHub Enterprise Server Backup Utilities](https://github.com/github/backup-utils) running in GitHub Actions.
 
 ## Example workflow
 
