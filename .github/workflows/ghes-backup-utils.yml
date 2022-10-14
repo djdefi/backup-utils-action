@@ -31,6 +31,6 @@ jobs:
         uses: djdefi/backup-utils-action@main
         with:
           ghe-hostname: ${{ github.event.inputs.ghe-hostname || env.SCHEDULED_HOSTNAME }}
-          verbose: ${{ github.event.inputs.verbose }}
-          restore: ${{ github.event.inputs.restore }}
+          verbose: ${{ github.event.inputs.verbose }} || false
+          restore: ${{ github.event.inputs.restore }} || false
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
