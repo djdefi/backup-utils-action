@@ -13,6 +13,11 @@ inputs:
     description: 'Restore from backup'
     required: false
     default: 'false'
+  ssh-pubkey:  # SSH public key
+    description: 'SSH public key'
+    required: false
+    default: ''
+
 runs:
   using: "composite"
   steps:
