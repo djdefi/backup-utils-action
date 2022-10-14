@@ -26,3 +26,7 @@ jobs:
     steps:
       - name: Backup GitHub Enterprise
         uses: djdefi/backup-utils-action@main
+        with:
+          ghe-hostname: ${{ github.event.inputs.ghe-hostname }}
+          verbose: ${{ github.event.inputs.verbose }}
+          restore: ${{ github.event.inputs.restore }}
