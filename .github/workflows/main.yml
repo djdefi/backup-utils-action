@@ -1,0 +1,28 @@
+on: 
+
+  workflow_dispatch:
+    inputs:
+      ghe-hostname:
+        description: 'GitHub Enterprise Hostname'
+        required: true
+        default: 'github.example.com'
+      verbose:
+        description: 'Verbose output'
+        required: false
+        default: 'true'
+      restore:
+        description: 'Restore from backup'
+        required: false
+        default: 'false'
+
+  #schedule:
+    # Hourly
+  #  - cron: '0 * * * *'
+
+jobs:
+
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Backup GitHub Enterprise
+        uses: djdefi/backup-utils-action@main
