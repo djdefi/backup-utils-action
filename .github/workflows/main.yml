@@ -30,7 +30,7 @@ jobs:
           SCHEDULED_HOSTNAME: 'djdefi-0aca3ec13e4dd9ece.ghe-test.ninja'
         uses: djdefi/backup-utils-action@main
         with:
-          ghe-hostname: ${{ github.event.inputs.ghe-hostname || github.event.schedule || env.SCHEDULED_HOSTNAME }}
+          ghe-hostname: ${{ github.event.inputs.ghe-hostname || env.SCHEDULED_HOSTNAME }}
           verbose: ${{ github.event.inputs.verbose }}
           restore: ${{ github.event.inputs.restore }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
