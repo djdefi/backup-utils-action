@@ -49,12 +49,16 @@ jobs:
 
 ## Running
 
-Run via workflow dispatch, providing the hostname of the applaince to backup.
+Run via workflow dispatch, providing the hostname of the appliance to backup.
 
 ## Restoring
 
 1. Set `restore = true` in the workflow dispatch along with a target hostname or IP.
-2. Coming soon!
+2. Not fully implemented - Coming soon!
+
+## Customization of `backup-utils` configuration options 
+
+Coming soon!
 
 ## Multiple snapshots
 
