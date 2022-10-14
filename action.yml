@@ -1,4 +1,4 @@
-name: 'GitHub Enterprise Backup Utilities Action"
+name: 'GitHub Enterprise Backup Utilities Action'
 description: 'A GitHub Action to backup and restore GitHub Enterprise'
 inputs:
   ghe-hostname:  # hostname of the GitHub Enterprise instance
@@ -16,8 +16,6 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - run: echo Hello ${{ inputs.who-to-greet }}.
-      shell: bash
     # Clone the [GitHub Enterprise Backup Utilities](https://github.com/github/backup-utils) repository
     - run: git clone https://github.com/github/backup-utils.git
       shell: bash
