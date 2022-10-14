@@ -44,6 +44,14 @@ runs:
         fi
       shell: bash
     
+    # Set SSH client options "-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no -o PasswordAuthentication=no"
+    - run: |
+        echo "Host *" > ~/.ssh/config
+        echo "  UserKnownHostsFile=/dev/null" >> ~/.ssh/config
+        echo "  StrictHostKeyChecking=no" >> ~/.ssh/config
+        echo "  PasswordAuthentication=no" >> ~/.ssh/config
+      shell: bash
+    
     # Run `ghe-host-check` to verify the GitHub Enterprise instance is reachable
     - run: backup-utils/bin/ghe-host-check ${{ inputs.ghe-hostname }}
       shell: bash
