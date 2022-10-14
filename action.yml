@@ -1,5 +1,9 @@
 name: 'GitHub Enterprise Backup Utilities Action'
 description: 'A GitHub Action to backup and restore GitHub Enterprise'
+branding:
+  icon: 'hard-drive'  
+  color: 'purple'
+
 inputs:
   ghe-hostname:  # hostname of the GitHub Enterprise instance
     description: 'The hostname of the GitHub Enterprise instance'
