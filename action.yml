@@ -29,31 +29,20 @@ runs:
         echo 'GHE_HOSTNAME="${{ inputs.ghe-hostname }}"' > backup-utils/backup.config
         echo 'GHE_DATA_DIR="data"' >> backup-utils/backup.config
       shell: bash
-    # Get SSH private key from GitHub Secrets and place in `.ssh/` directory. Base the filename on the type of key.
+    # Get SSH private key from GitHub Secrets and place in `.ssh/` directory. Base the filename on the type of key. Accepts RSA and ED25519 keys.
     - run: |
         mkdir -p ~/.ssh
-        if ssh-keygen -l -f ${{ inputs.ssh-private-key }} > /dev/null 2>&1; then
-          echo "RSA key detected"
+        if [[ "${{ inputs.ssh-private-key }}" == *"BEGIN RSA PRIVATE KEY"* ]]; then
           echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_rsa
           chmod 600 ~/.ssh/id_rsa
-        elif ssh-keygen -l -E md5 -f ${{ inputs.ssh-private-key }} > /dev/null 2>&1; then
-          echo "DSA key detected"
-          echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_dsa
-          chmod 600 ~/.ssh/id_dsa
-        elif ssh-keygen -l -E sha256 -f ${{ inputs.ssh-private-key }} > /dev/null 2>&1; then
-          echo "ECDSA key detected"
-          echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_ecdsa
-          chmod 600 ~/.ssh/id_ecdsa
-        elif ssh-keygen -l -E sha512 -f ${{ inputs.ssh-private-key }} > /dev/null 2>&1; then
-          echo "ED25519 key detected"
+        elif [[ "${{ inputs.ssh-private-key }}" == *"BEGIN OPENSSH PRIVATE KEY"* ]]; then
           echo "${{ inputs.ssh-private-key }}" > ~/.ssh/id_ed25519
           chmod 600 ~/.ssh/id_ed25519
         else
-          echo "Unknown key type"
+          echo "SSH private key is not a valid RSA or ED25519 key."
           exit 1
         fi
       shell: bash
-
     
     # Run `ghe-host-check` to verify the GitHub Enterprise instance is reachable
     - run: backup-utils/bin/ghe-host-check ${{ inputs.ghe-hostname }}
