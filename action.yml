@@ -23,7 +23,7 @@ runs:
     - run: |
         echo 'GHE_HOSTNAME="${{ inputs.ghe-hostname }}"' > backup-utils/backup.config
         echo 'GHE_DATA_DIR="data"' >> backup-utils/backup.config
-        shell: bash
+      shell: bash
 
     # If the restore input is set to true, restore from backup
     - run: |
