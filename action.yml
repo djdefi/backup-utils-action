@@ -4,11 +4,11 @@ inputs:
   ghe-hostname:  # hostname of the GitHub Enterprise instance
     description: 'The hostname of the GitHub Enterprise instance'
     required: true
-    default: 'World'
+    default: 'github.example.com'
   verbose:  # verbose output
     description: 'Verbose output'
     required: false
-    default: 'false'
+    default: 'true'
   restore:  # restore from backup
     description: 'Restore from backup'
     required: false
