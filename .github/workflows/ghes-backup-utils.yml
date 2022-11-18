@@ -16,9 +16,9 @@ on:
         required: false
         default: 'false'
 
-  schedule:
+  #schedule:
     # Hourly
-    - cron: '0 * * * *'
+    #- cron: '0 * * * *'
   
 jobs:
 
