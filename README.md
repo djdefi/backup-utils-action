@@ -45,7 +45,7 @@ jobs:
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
 ```
 
-* Requires adding a repository or organization level Actions secret containing a valid private SSH key with [access to the GitHub Enterprise Server adminstrative shell](https://docs.github.com/enterprise-server/admin/configuration/configuring-your-enterprise/accessing-the-administrative-shell-ssh). RSA and ED25519 keys are supported.
+* Requires adding a repository or organization level Actions secret `SSH_PRIVATE_KEY` containing a valid private SSH key with [access to the GitHub Enterprise Server adminstrative shell](https://docs.github.com/enterprise-server/admin/configuration/configuring-your-enterprise/accessing-the-administrative-shell-ssh). RSA and ED25519 keys are supported.
 
 ## Running
 
