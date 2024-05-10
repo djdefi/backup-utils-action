@@ -21,12 +21,23 @@ inputs:
     description: 'SSH private key'
     required: true
     default: ''
+  backup-utils-tag:  # Specify the backup-utils tag to use
+    description: 'Specify the backup-utils tag to use'
+    required: false
 
 runs:
   using: "composite"
   steps:
-    # Clone the [GitHub Enterprise Backup Utilities](https://github.com/github/backup-utils) repository
-    - run: git clone https://github.com/github/backup-utils.git
+    # Obtain the release tarball for the specified backup-utils tag, and extract into place
+    - run: |
+        if [ -z "${{ inputs.backup-utils-tag }}" ]; then
+          # Obtain latest release version to use as default "latest" tag
+          BACKUP_UTILS_TAG=$(curl -s https://api.github.com/repos/github/backup-utils/releases/latest | grep -oP '"tag_name": "\K(.*)(?=")')
+        else
+          BACKUP_UTILS_TAG=${{ inputs.backup-utils-tag }}
+        fi
+        curl -L https://github.com/github/backup-utils/archive/$BACKUP_UTILS_TAG.tar.gz | tar xz
+        mv backup-utils-$BACKUP_UTILS_TAG backup-utils
       shell: bash
     # Populate the `backup-utils/backup.config` file with the GitHub Enterprise hostname, and `GHE_DATA_DIR="data"`
     - run: |
@@ -79,16 +90,3 @@ runs:
           fi
         fi
       shell: bash
-    ## Compress the data directory into a tarball
-    #- run: tar -czf data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz ${{ github.workspace }}/data
-    #  shell: bash
-    ## Upload the tarball as an artifact with actions/upload-artifact
-    #- uses: actions/upload-artifact@v3
-    #  with:
-    #    name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
-    #    path: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}.tar.gz
-    ## Upload the data directory as an artifact with actions/upload-artifact
-    #- uses: actions/upload-artifact@v3
-    #  with:
-    #    name: data-${{ inputs.ghe-hostname }}-${{ github.run_id }}
-    #    path: data
