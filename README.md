@@ -24,6 +24,9 @@ on:
         description: 'Restore from backup'
         required: false
         default: 'false'
+      backup-utils-tag:
+        description: 'Specify the backup-utils tag to use'
+        required: false
 
   schedule:
     # Hourly
@@ -43,6 +46,7 @@ jobs:
           verbose: ${{ github.event.inputs.verbose }}
           restore: ${{ github.event.inputs.restore }}
           ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+          backup-utils-tag: 'v2.22.1' # Specify the version of backup-utils to use
 ```
 
 * Requires adding a repository or organization level Actions secret `SSH_PRIVATE_KEY` containing a valid private SSH key with [access to the GitHub Enterprise Server adminstrative shell](https://docs.github.com/enterprise-server/admin/configuration/configuring-your-enterprise/accessing-the-administrative-shell-ssh). RSA and ED25519 keys are supported.
@@ -58,7 +62,7 @@ Run via workflow dispatch, providing the hostname of the appliance to backup.
 
 ## Customization of `backup-utils` configuration options 
 
-Coming soon!
+You can now specify the `backup-utils` tag to use by setting the `backup-utils-tag` input in your workflow file. This allows for the use of a specific version of the backup-utils for your backup or restore operations.
 
 ## Multiple snapshots
 
